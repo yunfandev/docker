@@ -45,3 +45,11 @@ jobs:
       run: |
         docker build . --file Dockerfile --tag $USER_NAME/squid:latest
         docker push $USER_NAME/squid:latest
+
+    - name: Build rabbitmq
+      env:
+        USER_NAME: ${{ secrets.USER_NAME }}
+      working-directory: ./rabbitmq
+      run: |
+        docker build . --file Dockerfile --tag $USER_NAME/rabbitmq:latest
+        docker push $USER_NAME/rabbitmq:latest
