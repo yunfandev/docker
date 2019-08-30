@@ -1,6 +1,6 @@
 FROM rabbitmq:3.7-management
 
-RUN apt-get update && \
+RUN apt-get update || : && \
 apt-get install -y wget unzip && \
 rm -rf /var/lib/apt/lists/*
 
