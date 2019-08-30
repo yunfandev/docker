@@ -1,0 +1,47 @@
+name: Linux CI
+
+on:
+  push:
+    branches:
+    - master
+    - release/*
+
+jobs:
+  build:
+    name: Build linux images.
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    
+    - name: Docker login
+      env:
+        USER_NAME: ${{ secrets.USER_NAME }}  
+        PASSWORD: ${{ secrets.PASSWORD }}
+      run: |
+        docker login -u $USER_NAME -p $PASSWORD
+    
+    - name: Build nginx
+      env:
+        USER_NAME: ${{ secrets.USER_NAME }}
+      working-directory: ./nginx
+      run: |
+        docker build . --file Dockerfile --tag $USER_NAME/nginx:alpine
+        docker push $USER_NAME/nginx:alpine
+        
+    - name: Build nginx with certbot
+      env:
+        USER_NAME: ${{ secrets.USER_NAME }}
+      working-directory: ./nginx-certbot
+      run: |
+        docker build . --file Dockerfile --tag $USER_NAME/nginx:certbot --tag $USER_NAME/nginx:latest
+        docker push $USER_NAME/nginx:latest
+        docker push $USER_NAME/nginx:certbot
+
+    - name: Build squid
+      env:
+        USER_NAME: ${{ secrets.USER_NAME }}
+      working-directory: ./squid
+      run: |
+        docker build . --file Dockerfile --tag $USER_NAME/squid:latest
+        docker push $USER_NAME/squid:latest
