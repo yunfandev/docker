@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/runtime:2.2-stretch-slim
+FROM mcr.microsoft.com/dotnet/core/runtime:3.0
 
 LABEL maintainer="YunFan <dev@yunfan.me>"
 
