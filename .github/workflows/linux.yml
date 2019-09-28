@@ -59,21 +59,21 @@ jobs:
         USER_NAME: ${{ secrets.USER_NAME }}
       working-directory: ./dotnet/core/sdk
       run: |
-        docker build . --file Dockerfile --tag $USER_NAME/dnc:sdk2.2
-        docker push $USER_NAME/dnc:sdk2.2
+        docker build . --file Dockerfile --tag $USER_NAME/dnc:sdk3.0
+        docker push $USER_NAME/dnc:sdk3.0
 
     - name: Build dotnet core runtime
       env:
         USER_NAME: ${{ secrets.USER_NAME }}
       working-directory: ./dotnet/core/runtime
       run: |
-        docker build . --file Dockerfile --tag $USER_NAME/dnc:runtime2.2
-        docker push $USER_NAME/dnc:runtime2.2
+        docker build . --file Dockerfile --tag $USER_NAME/dnc:runtime3.0
+        docker push $USER_NAME/dnc:runtime3.0
 
     - name: Build dotnet core aspnet
       env:
         USER_NAME: ${{ secrets.USER_NAME }}
       working-directory: ./dotnet/core/aspnet
       run: |
-        docker build . --file Dockerfile --tag $USER_NAME/dnc:aspnet2.2
-        docker push $USER_NAME/dnc:aspnet2.2
+        docker build . --file Dockerfile --tag $USER_NAME/dnc:aspnet3.0
+        docker push $USER_NAME/dnc:aspnet3.0
