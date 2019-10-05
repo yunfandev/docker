@@ -77,3 +77,11 @@ jobs:
       run: |
         docker build . --file Dockerfile --tag $USER_NAME/dnc:aspnet3.0
         docker push $USER_NAME/dnc:aspnet3.0
+        
+    - name: Build mssql-cli
+      env:
+        USER_NAME: ${{ secrets.USER_NAME }}
+      working-directory: ./mssql-cli
+      run: |
+        docker build . --file Dockerfile --tag $USER_NAME/mssql-cli:latest
+        docker push $USER_NAME/mssql-cli:latest
