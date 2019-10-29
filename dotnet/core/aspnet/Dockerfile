@@ -7,5 +7,9 @@ ENV TZ=Asia/Shanghai
 ENV ASPNETCORE_FORWARDEDHEADERS_ENABLED=True
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN apt update && apt install -y htop nano iputils-ping \
+RUN apt update || : && apt install -y htop nano iputils-ping tar \
     && rm -rf /var/lib/apt/lists/*
+
+RUN curl -L "https://github.com/fullstorydev/grpcurl/releases/download/v1.4.0/grpcurl_1.4.0_linux_x86_64.tar.gz" -o grpcurl.tag.gz
+RUN tar -xzvf grpcurl.tag.gz -C /usr/local/bin
+RUN rm grpcurl.tag.gz /usr/local/bin/LICENSE
