@@ -1,12 +1,8 @@
-FROM rabbitmq:3.7-management
+FROM rabbitmq:3.8-management
 
 RUN apt-get update || : && \
-apt-get install -y wget unzip && \
+apt-get install -y wget && \
 rm -rf /var/lib/apt/lists/*
 
-RUN wget https://dl.bintray.com/rabbitmq/community-plugins/3.7.x/rabbitmq_delayed_message_exchange/rabbitmq_delayed_message_exchange-20171201-3.7.x.zip && \
-unzip rabbitmq_delayed_message_exchange-20171201-3.7.x.zip && \
-rm -f rabbitmq_delayed_message_exchange-20171201-3.7.x.zip && \
-mv rabbitmq_delayed_message_exchange-20171201-3.7.x.ez plugins/
-
+RUN wget -O /opt/rabbitmq/plugins/rabbitmq_delayed_message_exchange-3.8.0.ez https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases/download/v3.8.0/rabbitmq_delayed_message_exchange-3.8.0.ez
 RUN rabbitmq-plugins enable rabbitmq_delayed_message_exchange
