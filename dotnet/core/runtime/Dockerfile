@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/runtime:3.0
+FROM mcr.microsoft.com/dotnet/core/runtime:3.1
 
 LABEL maintainer="YunFan <dev@yunfan.me>"
 
