@@ -93,3 +93,11 @@ jobs:
       run: |
         docker build . --file Dockerfile --tag $USER_NAME/wine:latest
         docker push $USER_NAME/wine:latest
+
+    - name: Build wine devel
+      env:
+        USER_NAME: ${{ secrets.USER_NAME }}
+      working-directory: ./wine
+      run: |
+        docker build . --file Dockerfile.dev --tag $USER_NAME/wine:devel
+        docker push $USER_NAME/wine:devel
