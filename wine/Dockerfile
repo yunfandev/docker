@@ -1,28 +1,22 @@
-FROM ubuntu:bionic
+FROM debian:buster
 RUN export DEBIAN_FRONTEND="noninteractive" \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
         apt-transport-https \
-        ca-certificates \
-        cabextract \
-        gosu \
-        gpg-agent \
-        p7zip \
-        pulseaudio-utils \
+        gnupg2 \
         software-properties-common \
-        unzip \
         wget \
-        winbind \
-        zenity \
     && rm -rf /var/lib/apt/lists/*
 ARG WINEBRANCH="stable"
-ARG WINE_VER="4.0.3~bionic"
+# https://www.linuxuprising.com/2019/09/how-to-install-wine-staging-development.html
 RUN wget https://dl.winehq.org/wine-builds/winehq.key \
     && apt-key add winehq.key \
-    && apt-add-repository "deb https://dl.winehq.org/wine-builds/ubuntu/ bionic main" \
+    && apt-add-repository "deb https://dl.winehq.org/wine-builds/debian/ buster main" \
     && dpkg --add-architecture i386 \
+    && wget -O- -q https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/Debian_10/Release.key | apt-key add - \
+    && echo "deb http://download.opensuse.org/repositories/Emulators:/Wine:/Debian/Debian_10 ./" | tee /etc/apt/sources.list.d/wine-obs.list \
     && apt-get update \
-    && apt-get install -y --install-recommends winehq-${WINEBRANCH}="${WINE_VER}" \
+    && apt-get install -y --install-recommends -f winehq-${WINEBRANCH} \
     && rm -rf /var/lib/apt/lists/* \
     && rm winehq.key
 # Download mono and gecko
