@@ -1,0 +1,96 @@
+name: docker
+
+on:
+  schedule:
+    - cron: 0 0 * * *
+  push:
+    branches:
+    - master
+    - release/*
+
+jobs:
+  build:
+    name: Build linux images.
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    
+    - name: Docker login
+      env:
+        USER_NAME: ${{ secrets.USER_NAME }}  
+        PASSWORD: ${{ secrets.PASSWORD }}
+      run: |
+        docker login -u $USER_NAME -p $PASSWORD
+    
+    - name: Build nginx
+      env:
+        USER_NAME: ${{ secrets.USER_NAME }}
+      working-directory: ./nginx
+      run: |
+        docker pull $USER_NAME/nginx:alpine || :
+        docker build --cache-from $USER_NAME/nginx:alpine --pull --file Dockerfile --tag $USER_NAME/nginx:alpine .
+        docker push $USER_NAME/nginx:alpine
+
+    - name: Build rabbitmq
+      env:
+        USER_NAME: ${{ secrets.USER_NAME }}
+      working-directory: ./rabbitmq
+      run: |
+        docker pull $USER_NAME/rabbitmq:latest || :
+        docker build --cache-from $USER_NAME/rabbitmq:latest --pull --file Dockerfile --tag $USER_NAME/rabbitmq:latest .
+        docker push $USER_NAME/rabbitmq:latest
+
+    - name: Build dotnet core sdk
+      env:
+        USER_NAME: ${{ secrets.USER_NAME }}
+      working-directory: ./dotnet/core/sdk
+      run: |
+        docker pull $USER_NAME/dotnet:sdk5.0 || :
+        docker build --cache-from $USER_NAME/dotnet:sdk5.0 --pull --file Dockerfile --tag $USER_NAME/dotnet:sdk5.0 .
+        docker push $USER_NAME/dotnet:sdk5.0
+
+    - name: Build dotnet core runtime
+      env:
+        USER_NAME: ${{ secrets.USER_NAME }}
+      working-directory: ./dotnet/core/runtime
+      run: |
+        docker pull $USER_NAME/dotnet:runtime5.0 || :
+        docker build --cache-from $USER_NAME/dotnet:runtime5.0 --pull --file Dockerfile --tag $USER_NAME/dotnet:runtime5.0 .
+        docker push $USER_NAME/dotnet:runtime5.0
+
+    - name: Build dotnet core aspnet
+      env:
+        USER_NAME: ${{ secrets.USER_NAME }}
+      working-directory: ./dotnet/core/aspnet
+      run: |
+        docker pull $USER_NAME/dotnet:aspnet5.0 || :
+        docker build --cache-from $USER_NAME/dotnet:aspnet5.0 --pull --file Dockerfile --tag $USER_NAME/dotnet:aspnet5.0 .
+        docker push $USER_NAME/dotnet:aspnet5.0
+
+    - name: Build dotnet core perf
+      env:
+        USER_NAME: ${{ secrets.USER_NAME }}
+      working-directory: ./dotnet/core/perf
+      run: |
+        docker pull $USER_NAME/dotnet:perf5.0 || :
+        docker build --cache-from $USER_NAME/dotnet:perf5.0 --pull --file Dockerfile --tag $USER_NAME/dotnet:perf5.0 .
+        docker push $USER_NAME/dotnet:perf5.0
+      
+    - name: Build traefik
+      env:
+        USER_NAME: ${{ secrets.USER_NAME }}
+      working-directory: ./traefik
+      run: |
+        docker pull $USER_NAME/traefik:latest || :
+        docker build --cache-from $USER_NAME/traefik:latest --pull --file Dockerfile --tag $USER_NAME/traefik:latest .
+        docker push $USER_NAME/traefik:latest
+      
+    - name: Build wine
+      env:
+        USER_NAME: ${{ secrets.USER_NAME }}
+      working-directory: ./wine
+      run: |
+        docker pull $USER_NAME/wine:latest || :
+        docker build --cache-from $USER_NAME/wine:latest --pull --file Dockerfile --tag $USER_NAME/wine:latest .
+        docker push $USER_NAME/wine:latest
