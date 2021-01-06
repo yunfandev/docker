@@ -19,7 +19,7 @@ RUN apt update || : && apt install -y htop nano iputils-ping tar libgdiplus libc
     && rm -rf /var/lib/apt/lists/*
 
 # add grpcurl
-RUN curl -L "https://github.com/fullstorydev/grpcurl/releases/download/v1.7.0/grpcurl_1.7.0_linux_x86_64.tar.gz" -o grpcurl.tag.gz \
+RUN curl -L "https://github.com/fullstorydev/grpcurl/releases/download/v1.8.0/grpcurl_1.8.0_linux_x86_64.tar.gz" -o grpcurl.tag.gz \
     && tar -xzvf grpcurl.tag.gz -C /usr/local/bin \
     && rm grpcurl.tag.gz /usr/local/bin/LICENSE
 
