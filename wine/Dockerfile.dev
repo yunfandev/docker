@@ -23,13 +23,13 @@ RUN wget https://dl.winehq.org/wine-builds/winehq.key \
 # Download mono and gecko
 ARG MONO_VER="5.1.1"
 ARG GECKO_VER="2.47.2"
-RUN wget https://dl.winehq.org/wine/wine-mono/${MONO_VER}/wine-mono-${MONO_VER}.msi \
-    && wget https://dl.winehq.org/wine/wine-gecko/${GECKO_VER}/wine_gecko-${GECKO_VER}-x86.msi \
-    && wget https://dl.winehq.org/wine/wine-gecko/${GECKO_VER}/wine_gecko-${GECKO_VER}-x86_64.msi \
-    && wine64 msiexec /i wine-mono-${MONO_VER}.msi \
-    && wine64 msiexec /i wine_gecko-${GECKO_VER}-x86_64.msi \
-    && wine msiexec /i wine_gecko-${GECKO_VER}-x86.msi \
-    && rm -f wine-mono-${MONO_VER}.msi wine_gecko-${GECKO_VER}-x86.msi wine_gecko-${GECKO_VER}-x86_64.msi
+RUN wget https://dl.winehq.org/wine/wine-mono/${MONO_VER}/wine-mono-${MONO_VER}-x86.msi \
+    && wget https://dl.winehq.org/wine/wine-gecko/${GECKO_VER}/wine-gecko-${GECKO_VER}-x86.msi \
+    && wget https://dl.winehq.org/wine/wine-gecko/${GECKO_VER}/wine-gecko-${GECKO_VER}-x86_64.msi \
+    && wine64 msiexec /i wine-mono-${MONO_VER}-x86.msi \
+    && wine64 msiexec /i wine-gecko-${GECKO_VER}-x86_64.msi \
+    && wine msiexec /i wine-gecko-${GECKO_VER}-x86.msi \
+    && rm -f wine-mono-${MONO_VER}-x86.msi wine-gecko-${GECKO_VER}-x86.msi wine-gecko-${GECKO_VER}-x86_64.msi
 # Download winetricks
 RUN wget https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks \
         -O /usr/bin/winetricks \
