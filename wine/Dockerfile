@@ -21,8 +21,8 @@ RUN wget https://dl.winehq.org/wine-builds/winehq.key \
     && rm -rf /var/lib/apt/lists/* \
     && rm winehq.key
 # Download mono and gecko
-ARG MONO_VER="4.9.4"
-ARG GECKO_VER="2.47"
+ARG MONO_VER="5.1.1"
+ARG GECKO_VER="2.47.2"
 RUN wget https://dl.winehq.org/wine/wine-mono/${MONO_VER}/wine-mono-${MONO_VER}.msi \
     && wget https://dl.winehq.org/wine/wine-gecko/${GECKO_VER}/wine_gecko-${GECKO_VER}-x86.msi \
     && wget https://dl.winehq.org/wine/wine-gecko/${GECKO_VER}/wine_gecko-${GECKO_VER}-x86_64.msi \
