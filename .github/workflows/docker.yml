@@ -12,17 +12,17 @@ jobs:
   build:
     name: Build linux images.
     runs-on: Ubuntu-20.04
-    
+
     steps:
     - uses: actions/checkout@v1
-    
+
     - name: Docker login
       env:
         USER_NAME: ${{ secrets.USER_NAME }}  
         PASSWORD: ${{ secrets.PASSWORD }}
       run: |
         docker login -u $USER_NAME -p $PASSWORD
-    
+
     - name: Build nginx
       env:
         USER_NAME: ${{ secrets.USER_NAME }}
@@ -76,7 +76,7 @@ jobs:
         docker pull $USER_NAME/dotnet:perf5.0 || :
         docker build --cache-from $USER_NAME/dotnet:perf5.0 --pull --file Dockerfile --tag $USER_NAME/dotnet:perf5.0 .
         docker push $USER_NAME/dotnet:perf5.0
-      
+
     - name: Build traefik
       env:
         USER_NAME: ${{ secrets.USER_NAME }}
@@ -85,6 +85,15 @@ jobs:
         docker pull $USER_NAME/traefik:latest || :
         docker build --cache-from $USER_NAME/traefik:latest --pull --file Dockerfile --tag $USER_NAME/traefik:latest .
         docker push $USER_NAME/traefik:latest
+
+    - name: Build nuget
+      env:
+        USER_NAME: ${{ secrets.USER_NAME }}
+      working-directory: ./nuget
+      run: |
+        docker pull $USER_NAME/nuget:latest || :
+        docker build --cache-from $USER_NAME/nuget:latest --pull --file Dockerfile --tag $USER_NAME/nuget:latest .
+        docker push $USER_NAME/nuget:latest
       
     - name: Build wine
       env:
