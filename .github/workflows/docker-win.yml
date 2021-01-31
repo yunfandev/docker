@@ -1,0 +1,36 @@
+name: docker
+
+on:
+  schedule:
+    - cron: 0 0 * * *
+  push:
+    branches:
+    - master
+    - release/*
+
+jobs:
+  build:
+    name: Build Windows images.
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Docker login
+      env:
+        USER_NAME: ${{ secrets.USER_NAME }}
+        PASSWORD: ${{ secrets.PASSWORD }}
+      shell: powershell
+      run: |
+        docker version
+        docker login -u ${env:USER_NAME} -p ${env:PASSWORD}
+
+    - name: Build server core
+      env:
+        USER_NAME: ${{ secrets.USER_NAME }}
+      working-directory: ./windows/servercore
+      shell: powershell
+      run: |
+        docker pull ${env:USER_NAME}/servercore:1809
+        docker build --cache-from ${env:USER_NAME}/servercore:1809 --pull --file Dockerfile --tag ${env:USER_NAME}/servercore:1809 .
+        docker push ${env:USER_NAME}/servercore:1809
