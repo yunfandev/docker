@@ -34,3 +34,13 @@ jobs:
         docker pull ${env:USER_NAME}/servercore:1809
         docker build --cache-from ${env:USER_NAME}/servercore:1809 --pull --file Dockerfile --tag ${env:USER_NAME}/servercore:1809 .
         docker push ${env:USER_NAME}/servercore:1809
+
+    - name: Build dotnet framework
+      env:
+        USER_NAME: ${{ secrets.USER_NAME }}
+      working-directory: ./dotnet/framework
+      shell: powershell
+      run: |
+        docker pull ${env:USER_NAME}/dotnet:framework4.8
+        docker build --cache-from ${env:USER_NAME}/framework4.8 --pull --file Dockerfile --tag ${env:USER_NAME}/framework4.8 .
+        docker push ${env:USER_NAME}/framework4.8
