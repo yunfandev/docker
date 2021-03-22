@@ -44,3 +44,8 @@ jobs:
         docker pull ${env:USER_NAME}/framework:4.8
         docker build --cache-from ${env:USER_NAME}/framework:4.8 --pull --file Dockerfile --tag ${env:USER_NAME}/framework:4.8 .
         docker push ${env:USER_NAME}/framework:4.8
+
+    - name: Docker logout
+      shell: powershell
+      run: |
+        docker logout

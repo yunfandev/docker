@@ -103,3 +103,7 @@ jobs:
         docker pull $USER_NAME/wine:latest || :
         docker build --cache-from $USER_NAME/wine:latest --pull --file Dockerfile --tag $USER_NAME/wine:latest .
         docker push $USER_NAME/wine:latest
+
+    - name: Docker logout
+      run: |
+        docker logout
