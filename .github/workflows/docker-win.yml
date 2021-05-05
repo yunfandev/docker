@@ -45,6 +45,16 @@ jobs:
         docker build --cache-from ${env:USER_NAME}/framework:4.8 --pull --file Dockerfile --tag ${env:USER_NAME}/framework:4.8 .
         docker push ${env:USER_NAME}/framework:4.8
 
+    - name: Build visual stdio 2019 uwp
+      env:
+        USER_NAME: ${{ secrets.USER_NAME }}
+      working-directory: ./visualstudio/uwp
+      shell: powershell
+      run: |
+        docker pull ${env:USER_NAME}/visualstudio:uwp
+        docker build --cache-from ${env:USER_NAME}/visualstudio:uwp --pull --file Dockerfile --tag ${env:USER_NAME}/visualstudio:uwp .
+        docker push ${env:USER_NAME}/visualstudio:uwp
+
     - name: Docker logout
       shell: powershell
       run: |
