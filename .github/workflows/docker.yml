@@ -77,6 +77,16 @@ jobs:
         docker build --cache-from $USER_NAME/dotnet:perf5.0 --pull --file Dockerfile --tag $USER_NAME/dotnet:perf5.0 .
         docker push $USER_NAME/dotnet:perf5.0
 
+    - name: Build dotnet core monitor
+      env:
+        USER_NAME: ${{ secrets.USER_NAME }}
+      working-directory: ./dotnet/core/monitor
+      run: |
+        docker pull $USER_NAME/dotnet:monitor || :
+        docker build --cache-from $USER_NAME/dotnet:monitor --pull --file Dockerfile --tag $USER_NAME/dotnet:monitor .
+        docker push $USER_NAME/dotnet:monitor
+
+
     - name: Build traefik
       env:
         USER_NAME: ${{ secrets.USER_NAME }}
