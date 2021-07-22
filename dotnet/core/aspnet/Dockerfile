@@ -19,7 +19,7 @@ RUN curl -L https://storage.googleapis.com/google-code-archive-downloads/v2/code
     && rm paping_1.5.5_x86-64_linux.tar.gz
 
 # Add grpcurl
-RUN curl -L "https://github.com/fullstorydev/grpcurl/releases/download/v1.8.1/grpcurl_1.8.1_linux_x86_64.tar.gz" -o grpcurl.tag.gz
+RUN curl -L "https://github.com/fullstorydev/grpcurl/releases/download/v1.8.2/grpcurl_1.8.2_linux_x86_64.tar.gz" -o grpcurl.tag.gz
 RUN tar -xzvf grpcurl.tag.gz -C /usr/local/bin
 RUN rm grpcurl.tag.gz /usr/local/bin/LICENSE
 
