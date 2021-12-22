@@ -46,36 +46,36 @@ jobs:
         USER_NAME: ${{ secrets.USER_NAME }}
       working-directory: ./dotnet/core/sdk
       run: |
-        docker pull $USER_NAME/dotnet:sdk5.0 || :
-        docker build --cache-from $USER_NAME/dotnet:sdk5.0 --pull --file Dockerfile --tag $USER_NAME/dotnet:sdk5.0 .
-        docker push $USER_NAME/dotnet:sdk5.0
+        docker pull $USER_NAME/dotnet:sdk6.0 || :
+        docker build --cache-from $USER_NAME/dotnet:sdk6.0 --pull --file Dockerfile --tag $USER_NAME/dotnet:sdk6.0 .
+        docker push $USER_NAME/dotnet:sdk6.0
 
     - name: Build dotnet core runtime
       env:
         USER_NAME: ${{ secrets.USER_NAME }}
       working-directory: ./dotnet/core/runtime
       run: |
-        docker pull $USER_NAME/dotnet:runtime5.0 || :
-        docker build --cache-from $USER_NAME/dotnet:runtime5.0 --pull --file Dockerfile --tag $USER_NAME/dotnet:runtime5.0 .
-        docker push $USER_NAME/dotnet:runtime5.0
+        docker pull $USER_NAME/dotnet:runtime6.0 || :
+        docker build --cache-from $USER_NAME/dotnet:runtime6.0 --pull --file Dockerfile --tag $USER_NAME/dotnet:runtime6.0 .
+        docker push $USER_NAME/dotnet:runtime6.0
 
     - name: Build dotnet core aspnet
       env:
         USER_NAME: ${{ secrets.USER_NAME }}
       working-directory: ./dotnet/core/aspnet
       run: |
-        docker pull $USER_NAME/dotnet:aspnet5.0 || :
-        docker build --cache-from $USER_NAME/dotnet:aspnet5.0 --pull --file Dockerfile --tag $USER_NAME/dotnet:aspnet5.0 .
-        docker push $USER_NAME/dotnet:aspnet5.0
+        docker pull $USER_NAME/dotnet:aspnet6.0 || :
+        docker build --cache-from $USER_NAME/dotnet:aspnet6.0 --pull --file Dockerfile --tag $USER_NAME/dotnet:aspnet6.0 .
+        docker push $USER_NAME/dotnet:aspnet6.0
 
     - name: Build dotnet core perf
       env:
         USER_NAME: ${{ secrets.USER_NAME }}
       working-directory: ./dotnet/core/perf
       run: |
-        docker pull $USER_NAME/dotnet:perf5.0 || :
-        docker build --cache-from $USER_NAME/dotnet:perf5.0 --pull --file Dockerfile --tag $USER_NAME/dotnet:perf5.0 .
-        docker push $USER_NAME/dotnet:perf5.0
+        docker pull $USER_NAME/dotnet:perf6.0 || :
+        docker build --cache-from $USER_NAME/dotnet:perf6.0 --pull --file Dockerfile --tag $USER_NAME/dotnet:perf6.0 .
+        docker push $USER_NAME/dotnet:perf6.0
 
     - name: Build dotnet core monitor
       env:
