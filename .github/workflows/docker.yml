@@ -11,99 +11,86 @@ on:
 jobs:
   build:
     name: Build linux images.
-    runs-on: Ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Set up Docker Buildx
+      id: buildx
+      uses: docker/setup-buildx-action@v1
 
     - name: Docker login
       env:
         USER_NAME: ${{ secrets.USER_NAME }}  
         PASSWORD: ${{ secrets.PASSWORD }}
       run: |
+        docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
         docker login -u $USER_NAME -p $PASSWORD
-
+        docker buildx create --use
     - name: Build nginx
       env:
         USER_NAME: ${{ secrets.USER_NAME }}
       working-directory: ./nginx
       run: |
         docker pull $USER_NAME/nginx:alpine || :
-        docker build --cache-from $USER_NAME/nginx:alpine --pull --file Dockerfile --tag $USER_NAME/nginx:alpine .
-        docker push $USER_NAME/nginx:alpine
-
+        docker buildx build --push --platform linux/arm64/v8,linux/amd64 --cache-from $USER_NAME/nginx:alpine --pull --file Dockerfile --tag $USER_NAME/nginx:alpine .
     - name: Build rabbitmq
       env:
         USER_NAME: ${{ secrets.USER_NAME }}
       working-directory: ./rabbitmq
       run: |
         docker pull $USER_NAME/rabbitmq:latest || :
-        docker build --cache-from $USER_NAME/rabbitmq:latest --pull --file Dockerfile --tag $USER_NAME/rabbitmq:latest .
-        docker push $USER_NAME/rabbitmq:latest
-
+        docker buildx build --push --platform linux/arm64/v8,linux/amd64 --cache-from $USER_NAME/rabbitmq:latest --pull --file Dockerfile --tag $USER_NAME/rabbitmq:latest .
     - name: Build dotnet core sdk
       env:
         USER_NAME: ${{ secrets.USER_NAME }}
       working-directory: ./dotnet/core/sdk
       run: |
         docker pull $USER_NAME/dotnet:sdk6.0 || :
-        docker build --cache-from $USER_NAME/dotnet:sdk6.0 --pull --file Dockerfile --tag $USER_NAME/dotnet:sdk6.0 .
-        docker push $USER_NAME/dotnet:sdk6.0
-
+        docker buildx build --push --platform linux/arm64/v8,linux/amd64 --cache-from $USER_NAME/dotnet:sdk6.0 --pull --file Dockerfile --tag $USER_NAME/dotnet:sdk6.0 .
     - name: Build dotnet core runtime
       env:
         USER_NAME: ${{ secrets.USER_NAME }}
       working-directory: ./dotnet/core/runtime
       run: |
         docker pull $USER_NAME/dotnet:runtime6.0 || :
-        docker build --cache-from $USER_NAME/dotnet:runtime6.0 --pull --file Dockerfile --tag $USER_NAME/dotnet:runtime6.0 .
-        docker push $USER_NAME/dotnet:runtime6.0
-
+        docker buildx build --push --platform linux/arm64/v8,linux/amd64 --cache-from $USER_NAME/dotnet:runtime6.0 --pull --file Dockerfile --tag $USER_NAME/dotnet:runtime6.0 .
     - name: Build dotnet core aspnet
       env:
         USER_NAME: ${{ secrets.USER_NAME }}
       working-directory: ./dotnet/core/aspnet
       run: |
         docker pull $USER_NAME/dotnet:aspnet6.0 || :
-        docker build --cache-from $USER_NAME/dotnet:aspnet6.0 --pull --file Dockerfile --tag $USER_NAME/dotnet:aspnet6.0 .
-        docker push $USER_NAME/dotnet:aspnet6.0
-
+        docker buildx build --push --platform linux/arm64/v8,linux/amd64 --cache-from $USER_NAME/dotnet:aspnet6.0 --pull --file Dockerfile --tag $USER_NAME/dotnet:aspnet6.0 .
     - name: Build dotnet core perf
       env:
         USER_NAME: ${{ secrets.USER_NAME }}
       working-directory: ./dotnet/core/perf
       run: |
         docker pull $USER_NAME/dotnet:perf6.0 || :
-        docker build --cache-from $USER_NAME/dotnet:perf6.0 --pull --file Dockerfile --tag $USER_NAME/dotnet:perf6.0 .
-        docker push $USER_NAME/dotnet:perf6.0
-
+        docker buildx build --push --platform linux/arm64/v8,linux/amd64 --cache-from $USER_NAME/dotnet:perf6.0 --pull --file Dockerfile --tag $USER_NAME/dotnet:perf6.0 .
     - name: Build dotnet core monitor
       env:
         USER_NAME: ${{ secrets.USER_NAME }}
       working-directory: ./dotnet/core/monitor
       run: |
         docker pull $USER_NAME/dotnet:monitor || :
-        docker build --cache-from $USER_NAME/dotnet:monitor --pull --file Dockerfile --tag $USER_NAME/dotnet:monitor .
-        docker push $USER_NAME/dotnet:monitor
-
-
+        docker buildx build --push --platform linux/arm64/v8,linux/amd64 --cache-from $USER_NAME/dotnet:monitor --pull --file Dockerfile --tag $USER_NAME/dotnet:monitor .
     - name: Build traefik
       env:
         USER_NAME: ${{ secrets.USER_NAME }}
       working-directory: ./traefik
       run: |
         docker pull $USER_NAME/traefik:latest || :
-        docker build --cache-from $USER_NAME/traefik:latest --pull --file Dockerfile --tag $USER_NAME/traefik:latest .
-        docker push $USER_NAME/traefik:latest
-
+        docker buildx build --push --platform linux/arm64/v8,linux/amd64 --cache-from $USER_NAME/traefik:latest --pull --file Dockerfile --tag $USER_NAME/traefik:latest .
     - name: Build nuget
       env:
         USER_NAME: ${{ secrets.USER_NAME }}
       working-directory: ./nuget
       run: |
         docker pull $USER_NAME/nuget:latest || :
-        docker build --cache-from $USER_NAME/nuget:latest --pull --file Dockerfile --tag $USER_NAME/nuget:latest .
-        docker push $USER_NAME/nuget:latest
+        docker buildx build --push --platform linux/arm64/v8,linux/amd64 --cache-from $USER_NAME/nuget:latest --pull --file Dockerfile --tag $USER_NAME/nuget:latest .
       
     - name: Build wine
       env:
@@ -111,9 +98,7 @@ jobs:
       working-directory: ./wine
       run: |
         docker pull $USER_NAME/wine:latest || :
-        docker build --cache-from $USER_NAME/wine:latest --pull --file Dockerfile --tag $USER_NAME/wine:latest .
-        docker push $USER_NAME/wine:latest
-
+        docker buildx build --push --platform linux/arm64/v8,linux/amd64 --cache-from $USER_NAME/wine:latest --pull --file Dockerfile --tag $USER_NAME/wine:latest .
     - name: Docker logout
       run: |
         docker logout
