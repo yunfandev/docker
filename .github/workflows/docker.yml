@@ -28,6 +28,7 @@ jobs:
         docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
         docker login -u $USER_NAME -p $PASSWORD
         docker buildx create --use
+
     - name: Build nginx
       env:
         USER_NAME: ${{ secrets.USER_NAME }}
@@ -76,7 +77,7 @@ jobs:
       working-directory: ./dotnet/core/monitor
       run: |
         docker pull $USER_NAME/dotnet:monitor || :
-        docker buildx build --push --platform linux/arm64/v8,linux/amd64 --cache-from $USER_NAME/dotnet:monitor --pull --file Dockerfile --tag $USER_NAME/dotnet:monitor .
+        docker buildx build --push --platform linux/amd64 --cache-from $USER_NAME/dotnet:monitor --pull --file Dockerfile --tag $USER_NAME/dotnet:monitor .
     - name: Build traefik
       env:
         USER_NAME: ${{ secrets.USER_NAME }}
