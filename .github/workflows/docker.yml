@@ -91,7 +91,7 @@ jobs:
       working-directory: ./nuget
       run: |
         docker pull $USER_NAME/nuget:latest || :
-        docker buildx build --push --platform linux/arm64/v8,linux/amd64 --cache-from $USER_NAME/nuget:latest --pull --file Dockerfile --tag $USER_NAME/nuget:latest .
+        docker buildx build --push --platform linux/amd64 --cache-from $USER_NAME/nuget:latest --pull --file Dockerfile --tag $USER_NAME/nuget:latest .
       
     - name: Build wine
       env:
@@ -99,7 +99,7 @@ jobs:
       working-directory: ./wine
       run: |
         docker pull $USER_NAME/wine:latest || :
-        docker buildx build --push --platform linux/arm64/v8,linux/amd64 --cache-from $USER_NAME/wine:latest --pull --file Dockerfile --tag $USER_NAME/wine:latest .
+        docker buildx build --push --platform linux/amd64 --cache-from $USER_NAME/wine:latest --pull --file Dockerfile --tag $USER_NAME/wine:latest .
     - name: Docker logout
       run: |
         docker logout
