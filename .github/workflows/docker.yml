@@ -42,7 +42,7 @@ jobs:
       working-directory: ./rabbitmq
       run: |
         docker pull $USER_NAME/rabbitmq:latest || :
-        docker buildx build --push --platform linux/arm64/v8,linux/amd64 --cache-from $USER_NAME/rabbitmq:latest --pull --file Dockerfile --tag $USER_NAME/rabbitmq:latest .
+        docker buildx build --push --platform linux/amd64 --cache-from $USER_NAME/rabbitmq:latest --pull --file Dockerfile --tag $USER_NAME/rabbitmq:latest .
     - name: Build dotnet core sdk
       env:
         USER_NAME: ${{ secrets.USER_NAME }}
